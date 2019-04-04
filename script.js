@@ -2,24 +2,21 @@
 jQuery(function(){
     'use strict';
 
-    // only run in show and search mode
-	// TODO: make this configurable
-    if (JSINFO['ACT'] != 'show' && JSINFO['ACT'] != 'search') return;
-    
-    // mouseup callback for content div
-    jQuery('div#dokuwiki__content').mouseup(function(event){
-        var query = window.getSelection().toString().trim();
+    var tooltip = jQuery('#selectionsearch__tooltip');
+    if (!tooltip[0]) return;
 
-        var tooltip = jQuery('div#selectionsearch__tooltip');
+    // mouseup callback for content div
+    jQuery('#dokuwiki__content').mouseup(function(event){
         tooltip.hide();
 
-        if (query.length < JSINFO['selectionsearch_minlength']) return;
+        var query = window.getSelection().toString().trim();
+        if (query.length < JSINFO.selectionsearch_minlength) return;
 
-        var href = '?id='+JSINFO['id']+'&do=search&q='+encodeURIComponent(query);
-        jQuery('a#selectionsearch__link').attr('href', href);
-		
-        tooltip.css({top: event.pageY+JSINFO['selectionsearch_ycorr'],
-		            left: event.pageX+JSINFO['selectionsearch_xcorr']});
+        var href = '?id='+JSINFO.id+'&do=search&q='+encodeURIComponent(query);
+        jQuery('#selectionsearch__link').attr('href', href);
+
+        tooltip.css({top: event.pageY+JSINFO.selectionsearch_ycorr,
+                    left: event.pageX+JSINFO.selectionsearch_xcorr});
         tooltip.show();
     });     
 });
